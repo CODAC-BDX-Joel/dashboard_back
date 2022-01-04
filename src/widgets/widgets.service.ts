@@ -17,8 +17,8 @@ export class WidgetsService {
     }
 
     async findAll(): Promise<Widget[]> {
-        // return this.widgetModel.find().populate('service').exec();
-        return this.widgetModel.find();
+        return this.widgetModel.find().populate('service').exec();
+        // return this.widgetModel.find();
     }
 
     async findOne(id: string): Promise<Widget> {
