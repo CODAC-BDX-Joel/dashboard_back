@@ -8,6 +8,11 @@ import {Service} from "./interfaces/service.interface";
 export class ServicesController {
     constructor(private readonly servicesService: ServicesService) {}
 
+    @Post()
+    create(@Body() createServiceDto: CreateServiceDto): Promise<Service> {
+        return this.servicesService.create(createServiceDto)
+    }
+
     @Get()
     async findAll(): Promise<Service[]> {
         return this.servicesService.findAll();
@@ -18,10 +23,7 @@ export class ServicesController {
       return this.servicesService.findOne(id);
     }
 
-    @Post()
-    create(@Body() createServiceDto: CreateServiceDto): Promise<Service> {
-        return this.servicesService.create(createServiceDto)
-    }
+
 
     @Delete(':id')
     delete(@Param('id') id): Promise<Service> {
