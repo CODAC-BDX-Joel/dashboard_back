@@ -11,17 +11,18 @@ export class UsersService {
     }
 
     async findAll(): Promise<User[]> {
-        return this.userModel.find();
+        return this.userModel.find()
+            .populate('widgetsList').exec();
     }
 
     async findOne(username: string): Promise<User> {
-        return this.userModel.findOne({username: username});
+        return this.userModel.findOne({username: username})
+            .populate('widgetsList').exec();
     }
 
     async findOneById(id: string): Promise<User> {
-        return this.userModel.findOne({_id: id}).
-        populate('bookedEvents').
-        exec();
+        return this.userModel.findOne({_id: id})
+            .populate('widgetsList').exec();
     }
 
     async create(user: User): Promise<User> {

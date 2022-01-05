@@ -35,7 +35,6 @@ export class WidgetsController {
     update(@Body() updateWidgetDto: UpdateWidgetDto, @Param('id') id): string {
         return `widget id : ${id} update content ${updateWidgetDto.description}`
     }
-
 }
 
 

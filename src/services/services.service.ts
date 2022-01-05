@@ -16,11 +16,11 @@ export class ServicesService {
     }
 
     async findAll(): Promise<Service[]> {
-        return this.serviceModel.find()
+        return this.serviceModel.find().populate('widgets').exec();
     }
 
     async findOne(id: string): Promise<Service> {
-        return this.serviceModel.findOne({_id: id});
+        return this.serviceModel.findOne({_id: id}).populate('widgets').exec();;
     }
 
     async update(id: string, service: UpdateServiceDto): Promise<Service> {
