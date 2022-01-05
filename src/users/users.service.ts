@@ -44,4 +44,8 @@ export class UsersService {
     async delete(id: string): Promise<User> {
         return this.userModel.findByIdAndRemove(id);
     }
+
+    test():string{
+        return 'hello test user service from widget service'
+    }
 }

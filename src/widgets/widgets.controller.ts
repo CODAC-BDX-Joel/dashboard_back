@@ -35,6 +35,13 @@ export class WidgetsController {
     update(@Body() updateWidgetDto: UpdateWidgetDto, @Param('id') id): string {
         return `widget id : ${id} update content ${updateWidgetDto.description}`
     }
+
+    //one user request his/her widgets datas
+    @Get('/widgetsData/:userId')
+    getMyWidgetsData(@Param('userId') userId){
+        // return `Here are widgets data for user id:  ${userId}`
+        // return this.widgetsServices.getWidgetsData();
+    }
 }
 
 

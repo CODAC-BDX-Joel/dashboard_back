@@ -5,11 +5,20 @@ import {Widget, WidgetDocument} from "./schemas/widget.schema";
 import {CreateWidgetDto} from "./dto/create-widget.dto";
 import {UpdateWidgetDto} from "./dto/update-widget.dto";
 import {Service} from "../services/schemas/service.schema";
+import {UsersService} from "../users/users.service";
+import {User} from "../users/interfaces/user.interface";
 
 @Injectable()
 export class WidgetsService {
     constructor(@InjectModel(Widget.name) private widgetModel: Model<WidgetDocument>) {
     }
+
+    // constructor(
+    //     @InjectModel(Widget.name) private widgetModel: Model<WidgetDocument>,
+    //     @InjectModel('User') private readonly userModel: Model<User>,
+    //     private readonly usersService: UsersService
+    //     ) {
+    // }
 
     async create(createWidgetDto: CreateWidgetDto): Promise<Widget> {
         const createdWidget = new this.widgetModel(createWidgetDto);
@@ -31,6 +40,11 @@ export class WidgetsService {
 
     async delete(id: string): Promise<Widget> {
         return this.widgetModel.findByIdAndRemove(id);
+    }
+
+    getWidgetsData(){
+        //get user info
+        // return this.usersService.test()
     }
 
 }
