@@ -41,9 +41,7 @@ export class UsersController {
     }
 
     @UseGuards(JwtAuthGuard)
-    // @Put(':id')
     @Patch(':id')
-    // update(@Body() updateUserDto: UpdateUserDto, @Param('id') id): Promise<User> {
     update(@Body() updateUserDto: UpdateUserDto, @Param('id') id): Promise<User> {
         return this.usersService.update(id, updateUserDto);
     }

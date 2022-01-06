@@ -17,7 +17,7 @@ export class UsersService {
 
     async findOne(username: string): Promise<User> {
         return this.userModel.findOne({username: username})
-            .populate('widgetsList').exec();
+            .populate({path:'widgetsList', populate:{path:'service'}}).exec();
     }
 
     async findOneById(id: string): Promise<User> {

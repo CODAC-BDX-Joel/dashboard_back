@@ -1,25 +1,41 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {Injectable, UnauthorizedException} from '@nestjs/common';
 import {UsersService} from "../users/users.service";
 import {JwtService} from "@nestjs/jwt";
 import * as bcrypt from 'bcrypt';
 import {from, Observable} from "rxjs";
+import {HttpService} from "@nestjs/axios";
 
 @Injectable()
 export class AuthService {
-    constructor(private usersService: UsersService, private jwtService: JwtService) {
+    constructor(
+        private usersService: UsersService,
+        private jwtService: JwtService,
+        private httpService: HttpService) {
     }
 
     async validateUser(username: string, password: string): Promise<any> {
         const user = await this.usersService.findOne(username);
         if (bcrypt.compareSync(password, user.password)) {
+            const {username, id, email, widgetsList} = user;
+            let allResults = [];
+            //@ts-ignore
+            let requests = widgetsList.map(w => this.httpService.get(w.endpoint).toPromise());
+            allResults = await Promise.all(requests).then(responses => {
+                let counter = 0
+                responses.forEach(response => {
+                    //@ts-ignore
+                    allResults.push({service_id: widgetsList[counter].service._id,service: widgetsList[counter].service.name,widget_id: widgetsList[counter]._id, widget_name: widgetsList[counter].name, data: response.data});
+                    counter++;
+                });
+                return allResults;
+            });
 
-
-            const { username, id, email, widgetsList } = user;
             return {
                 _id: id,
                 username: username,
                 email: email,
-                widgetsList: widgetsList
+                widgetsList: widgetsList,
+                widgetsData: allResults,
             };
         } else {
             throw new UnauthorizedException();

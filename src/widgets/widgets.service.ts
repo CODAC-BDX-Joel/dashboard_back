@@ -12,12 +12,6 @@ export class WidgetsService {
     constructor(@InjectModel(Widget.name) private widgetModel: Model<WidgetDocument>) {
     }
 
-    // constructor(
-    //     @InjectModel(Widget.name) private widgetModel: Model<WidgetDocument>,
-    //     @InjectModel('User') private readonly userModel: Model<User>,
-    // ) {
-    // }
-
     async create(createWidgetDto: CreateWidgetDto): Promise<Widget> {
         const createdWidget = new this.widgetModel(createWidgetDto);
         return createdWidget.save();
@@ -29,7 +23,7 @@ export class WidgetsService {
     }
 
     async findOne(id: string): Promise<Widget> {
-        return this.widgetModel.findOne({_id: id});
+        return this.widgetModel.findOne({_id: id}).populate('service').exec();;
     }
 
     async update(id: string, widget: UpdateWidgetDto): Promise<Widget> {
@@ -39,6 +33,5 @@ export class WidgetsService {
     async delete(id: string): Promise<Widget> {
         return this.widgetModel.findByIdAndRemove(id);
     }
-
 
 }

@@ -37,23 +37,4 @@ export class AppController {
         console.log(userId)
     }
 
-    @Get('/toto')
-    async getToto() {
-        // return this.appService.getMyWidgetsData()
-        const urls = ['https://www.boredapi.com/api/activity', 'https://api.coindesk.com/v1/bpi/currentprice.json', 'https://www.metaweather.com/api/location/44418/'];
-        let allResults = ['toto'];
-        // map every url to the promise
-        let requests = urls.map(url => this.httpService.get(url).toPromise());
-
-        // Promise.all waits until all jobs are resolved
-        allResults = await Promise.all(requests)
-            .then(responses => {
-                responses.forEach(response => {
-                    allResults.push(response.data);
-                });
-                return allResults;
-            });
-        // console.log(allResults);
-        return allResults;
-    }
 }

@@ -6,9 +6,14 @@ import {LocalStrategy} from "./local.strategy";
 import {JwtModule} from "@nestjs/jwt";
 import {JwtStrategy} from "./jwt.strategy";
 import {ConfigModule, ConfigService} from "@nestjs/config";
+import {HttpModule} from "@nestjs/axios";
 
 @Module({
-    imports: [UsersModule, PassportModule, JwtModule.registerAsync({imports: [ConfigModule], useFactory: async (configService: ConfigService) => ({
+    imports: [
+        HttpModule,
+        UsersModule,
+        PassportModule,
+        JwtModule.registerAsync({imports: [ConfigModule], useFactory: async (configService: ConfigService) => ({
         secret: configService.get('TOTO'),
         signOptions: {expiresIn: '10800s'},
     }),
