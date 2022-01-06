@@ -53,7 +53,7 @@ export class AppController {
                 });
                 return allResults;
             });
-                // console.log(allResults);
-                return allResults;
+        // console.log(allResults);
+        return allResults;
     }
 }
