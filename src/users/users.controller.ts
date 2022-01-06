@@ -34,7 +34,6 @@ export class UsersController {
         return this.usersService.findOneById(id);
     }
 
-
     @Post()
     // @Roles(Role.Admin)
     create(@Body() createUserDto: CreateUserDto): Promise<User> {
@@ -50,7 +49,7 @@ export class UsersController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Put('admin/:id')
+    @Put('/:id')
     updateAdmin(@Body() updateUserDto: CreateUserDto, @Param('id') id): Promise<User> {
         return this.usersService.update(id, updateUserDto);
     }

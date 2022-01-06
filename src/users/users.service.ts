@@ -45,7 +45,7 @@ export class UsersService {
         return this.userModel.findByIdAndRemove(id);
     }
 
-    test():string{
+    test(): string {
         return 'hello test user service from widget service'
     }
 }
