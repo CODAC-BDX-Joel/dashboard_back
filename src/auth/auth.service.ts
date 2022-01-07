@@ -17,6 +17,7 @@ export class AuthService {
         const user = await this.usersService.findOne(username);
         if (bcrypt.compareSync(password, user.password)) {
             const {username, id, email, widgetsList} = user;
+
             let allResults = [];
             //@ts-ignore
             let requests = widgetsList.map(w => this.httpService.get(w.endpoint).toPromise());
@@ -24,7 +25,12 @@ export class AuthService {
                 let counter = 0
                 responses.forEach(response => {
                     //@ts-ignore
-                    allResults.push({service_id: widgetsList[counter].service._id,service: widgetsList[counter].service.name,widget_id: widgetsList[counter]._id, widget_name: widgetsList[counter].name, data: response.data});
+                    allResults.push({
+                        service_id: widgetsList[counter].service._id,
+                        service: widgetsList[counter].service.name, widget_id: widgetsList[counter]._id,
+                        widget_name: widgetsList[counter].name,
+                        data: response.data
+                    });
                     counter++;
                 });
                 return allResults;
