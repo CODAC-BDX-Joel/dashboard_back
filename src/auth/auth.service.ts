@@ -17,7 +17,6 @@ export class AuthService {
         const user = await this.usersService.findOne(username);
         if (bcrypt.compareSync(password, user.password)) {
             const {username, id, email, widgetsList} = user;
-
             let allResults = [];
             //@ts-ignore
             let requests = widgetsList.map(w => this.httpService.get(w.endpoint).toPromise());

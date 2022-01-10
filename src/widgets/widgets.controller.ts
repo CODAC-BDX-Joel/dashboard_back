@@ -4,11 +4,17 @@ import {UpdateWidgetDto} from "./dto/update-widget.dto";
 import {WidgetsService} from "./widgets.service";
 import {Widget} from "./interfaces/widget.interface";
 import {Service} from "../services/interfaces/service.interface";
+import {UsersService} from "../users/users.service";
+import {HttpService} from "@nestjs/axios";
 
 
 @Controller('widgets')
 export class WidgetsController {
-    constructor(private readonly widgetsServices: WidgetsService) {
+    constructor(
+        private readonly widgetsServices: WidgetsService,
+        private usersService: UsersService,
+        private httpService: HttpService
+    ) {
     }
 
     @Post()
@@ -37,10 +43,32 @@ export class WidgetsController {
     }
 
     //one user request his/her widgets datas
-    @Get('/widgetsData/:userId')
-    getMyWidgetsData(@Param('userId') userId){
-        // return `Here are widgets data for user id:  ${userId}`
-        // return this.widgetsServices.getWidgetsData();
+    @Get('/userWidgets/:userId')
+    async getMyWidgetsData(@Param('userId') userId) {
+        //fetch user
+        const user = await this.usersService.findOneById(userId);
+        const {username, id, email, widgetsList} = user;
+        let allResults = [];
+        //@ts-ignore
+        let requests = widgetsList.map(w => this.httpService.get(w.endpoint).toPromise());
+        allResults = await Promise.all(requests).then(responses => {
+            let counter = 0
+            responses.forEach(response => {
+                //@ts-ignore
+                allResults.push({
+                    service_id: widgetsList[counter].service._id,
+                    service: widgetsList[counter].service.name, widget_id: widgetsList[counter]._id,
+                    widget_name: widgetsList[counter].name,
+                    data: response.data
+                });
+                counter++;
+            });
+            return allResults;
+        });
+
+        return{
+            widgetsData: allResults
+        }
     }
 }
 

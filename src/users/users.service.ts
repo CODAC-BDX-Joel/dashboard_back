@@ -22,7 +22,7 @@ export class UsersService {
 
     async findOneById(id: string): Promise<User> {
         return this.userModel.findOne({_id: id})
-            .populate('widgetsList').exec();
+            .populate({path:'widgetsList', populate:{path:'service'}}).exec();
     }
 
     async create(user: User): Promise<User> {
