@@ -36,12 +36,10 @@ export class AppController {
     }
 
 
-
-    //TODO uncomment below useguards when all ready
     // @UseGuards(LocalAuthGuard)
     @Get('/myWidgetsData/:userId')
     async getMyWidgetsData(@Param('userId') userId) {
-        console.log(userId)
+        // console.log(userId)
     }
 
 }
