@@ -18,6 +18,11 @@ export class AppController {
     ) {
     }
 
+    @Get()
+    getTest(): string {
+        return 'Test route,Ni Hao ma?'
+    }
+
     @UseGuards(LocalAuthGuard)
     @Post('login')
     login(@Request() req): any {
@@ -29,6 +34,8 @@ export class AppController {
     getHello(): string {
         return 'Ni Hao ma?'
     }
+
+
 
     //TODO uncomment below useguards when all ready
     // @UseGuards(LocalAuthGuard)
