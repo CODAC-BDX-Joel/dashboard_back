@@ -18,7 +18,7 @@ export class AppController {
     ) {
     }
 
-    @Get()
+    @Get('test')
     getTest(): string {
         return 'Test route,Ni Hao ma?'
     }
